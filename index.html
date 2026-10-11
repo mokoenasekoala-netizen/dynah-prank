@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Question for Dynah</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: radial-gradient(circle at top, #2a2a5a, #1a1a2e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  .card {
+    background: #ffffff;
+    color: #1a1a2e;
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  h1 { font-size: 1.5rem; margin-bottom: 2rem; line-height: 1.4; }
+  .buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  button {
+    border: none;
+    padding: 0.9rem 1.8rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  button:active { transform: scale(0.95); }
+  .yes { background: #4d79ff; color: white; }
+  .no { background: #e0e0e0; color: #333; position: relative; }
+  .hidden { display: none; }
+  .emoji { font-size: 3rem; margin-bottom: 1rem; }
+  .sub { font-size: 0.95rem; opacity: 0.7; margin-top: 1rem; }
+</style>
+</head>
+<body>
+
+<div class="card" id="screen1">
+  <div class="emoji">🤔</div>
+  <h1>Are you an idiot?</h1>
+  <div class="buttons">
+    <button class="no" id="noBtn" onclick="handleNo()">No</button>
+    <button class="yes" onclick="showResult()">Yes</button>
+  </div>
+  <div class="sub" id="nudge"></div>
+</div>
+
+<div class="card hidden" id="screen2">
+  <div class="emoji">😂</div>
+  <h1>I knew it.</h1>
+  <div class="buttons">
+    <button class="yes" onclick="document.body.innerHTML='<h2 style=\'text-align:center;margin-top:40vh;font-family:sans-serif;color:white\'>👋</h2>';">OK</button>
+  </div>
+</div>
+
+<script>
+  let noAttempts = 0;
+  const noBtn = document.getElementById('noBtn');
+  const nudge = document.getElementById('nudge');
+
+  function handleNo() {
+    noAttempts++;
+    const messages = [
+      "Nope, try again 😏",
+      "That's not gonna work on me",
+      "Still not an option",
+      "You literally can't press No",
+      "Just press Yes, it's easier"
+    ];
+    nudge.textContent = messages[Math.min(noAttempts - 1, messages.length - 1)];
+
+    const card = document.getElementById('screen1').getBoundingClientRect();
+    const btnW = noBtn.offsetWidth;
+    const maxX = card.width - btnW - 20;
+    const maxY = 80;
+    const randX = Math.random() * maxX - maxX / 2;
+    const randY = Math.random() * maxY - maxY / 2;
+    noBtn.style.left = randX + 'px';
+    noBtn.style.top = randY + 'px';
+  }
+
+  function showResult() {
+    document.getElementById('screen1').classList.add('hidden');
+    document.getElementById('screen2').classList.remove('hidden');
+  }
+</script>
+
+</body>
+</html>
